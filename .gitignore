@@ -1,0 +1,7 @@
+.env
+*.pyc
+__pychace__/
+ExamGpt-env/
+ExamGpt-env/*
+migrations/
+migrations/*
