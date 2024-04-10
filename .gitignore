@@ -5,3 +5,4 @@ ExamGpt-env/
 migrations/
 migrations/*
 gpt_test.py
+pybo.db
