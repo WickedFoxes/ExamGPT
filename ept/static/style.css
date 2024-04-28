@@ -1,0 +1,105 @@
+@font-face {
+  font-family: gsL;
+  src: url(./fonts/GmarketSansTTFLight.ttf);
+}
+
+@font-face {
+  font-family: gsM;
+  src: url(./fonts/GmarketSansTTFMedium.ttf);
+}
+
+@font-face {
+  font-family: gsB;
+  src: url(./fonts/GmarketSansTTFBold.ttf);
+}
+
+/* Basic Setting */
+
+* {
+  box-sizing: border-box;
+  font-family: gsL;
+  color: gray;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style-type: none;
+}
+
+button {
+  border: none;
+}
+
+/* Navigation Bar */
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 3vw;
+  background-color: rgb(248, 248, 248);
+}
+
+.nav-container a {
+  font-size: 1.25rem;
+}
+
+.nav-container a:hover {
+  color: red;
+}
+
+.nav-container p {
+  font-size: 1.15rem;
+  color: black;
+  font-family: gsM;
+  margin-top: 2.5px;
+}
+
+.nav-sign {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 300px;
+}
+
+/* Main - title & button */
+
+.main-container {
+  margin: 2.5vw 6vw;
+}
+
+hr {
+  background-color: rgb(230, 230, 230);
+  height: 1px;
+  border: 0;
+}
+
+.main-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.5vw 20px;
+}
+
+.main-title {
+  font-size: 1.5rem;
+}
+
+.main-button {
+  font-size: 1rem;
+  background-color: red;
+  color: white;
+  padding: 7.5px 15px;
+  border-radius: 5px;
+}
+
+.main-button:hover {
+  cursor: pointer;
+  transition: 0.25s;
+  background-color: rgb(200, 200, 200);
+}

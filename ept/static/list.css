@@ -1,0 +1,37 @@
+.list-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.list {
+  background-color: rgb(248, 248, 248);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 13.25%;
+  margin: 0.5%;
+  height: 150px;
+  position: relative;
+}
+
+.list a {
+  font-size: 1.25rem;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.list:hover {
+  transition: 0.25s;
+  background-color: rgb(240, 240, 240);
+}
+.list:hover p {
+  transition: 0.25s;
+  color: red;
+}

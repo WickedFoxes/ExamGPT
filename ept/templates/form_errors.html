@@ -1,0 +1,17 @@
+<!-- 필드오류 -->
+{% if form.errors %}
+<div role="alert">
+  {% for field, errors in form.errors.items() %}
+  <p>{{ form[field].label }}</p>
+  <ul>
+    {% for error in errors %}
+    <li style="color: red; margin-bottom: 10px">- {{ error }}</li>
+    {% endfor %}
+  </ul>
+  {% endfor %}
+</div>
+{% endif %}
+<!-- flash 오류 -->
+{% for message in get_flashed_messages() %}
+<div style="color: red; margin-bottom: 10px" role="alert">- {{ message }}</div>
+{% endfor %}

@@ -1,0 +1,24 @@
+<!-- 네비게이션바 -->
+
+<div class="nav-container">
+  
+  <!-- Logo -->
+  <a class="nav-title" href="{{ url_for('main.index') }}">ExamGPT</a>
+
+  <!-- Signed Page -->
+  {% if g.user %}
+  <div class="nav-sign">
+    <p>{{ g.user.username.upper() }}</p>
+    <a class="nav-link" href="{{ url_for('auth.logout') }}">-  Sign Out</a>
+  </div>
+  </div>
+
+  <!-- Unsigned Page -->
+  {% else %}
+  <div class="nav-sign">
+    <a class="nav-link" href="{{ url_for('auth.signup') }}">Sign Up</a>
+    <p>/</p>
+    <a class="nav-link" href="{{ url_for('auth.login') }}">Sign In</a>
+  </div>
+</div>
+{% endif %}

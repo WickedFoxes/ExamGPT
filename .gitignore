@@ -6,3 +6,4 @@ migrations/
 migrations/*
 gpt_test.py
 pybo.db
+ept.db

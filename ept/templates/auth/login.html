@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}" />
+
+{% extends "base.html" %} {% block content %}
+<div class="main-container">
+  <div class="main-title-container">
+    <p class="main-title">Sign In</p>
+  </div>
+  <hr />
+  <form method="post" class="form-container">
+    {{ form.csrf_token }} {% include "form_errors.html" %}
+    <div class="input-container" style="margin-top: 100px">
+      <label for="username" class="input-title">Nickname</label>
+      <input
+        type="text"
+        class="input-text"
+        name="username"
+        id="username"
+        value="{{ form.username.data or '' }}"
+      />
+    </div>
+    <div class="input-container" style="margin-bottom: 30px">
+      <label for="password" class="input-title">Password</label>
+      <input
+        type="password"
+        class="input-text"
+        name="password"
+        id="password"
+        value="{{ form.password.data or '' }}"
+      />
+    </div>
+    <button type="submit" class="main-button">SIGN IN</button>
+  </form>
+</div>
+{% endblock %}

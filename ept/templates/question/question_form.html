@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='form.css') }}"
+/>
+
+<div class="main-container">
+  <div class="main-title-container">
+    <p class="main-title">Upload New File</p>
+  </div>
+  <hr />
+      <form method="post" class="form-container" enctype="multipart/form-data">
+          {{ form.csrf_token }} {% include "form_errors.html" %}
+          <div class="input-container" style="margin: 75px 0 30px;">
+            <p class="input-title">File Name</p>
+            <input type="text" name="subject" class="input-text" />
+          </div>
+          <div class="input-container">
+            <p class="input-title">File Upload</p>
+            <div div class="file-container">
+              <input type="file" name="fileContent" class="file-input" id="file_input">
+              <p class="file-name"></p>
+              <label class="file-label" for="file_input">SEARCH</label>
+          
+              <script>
+                document.getElementById("file_input").addEventListener("change", function() {
+                var fileName = this.files[0].name;
+                var label = document.querySelector('.file-name');
+                label.innerHTML = fileName;
+              });
+              </script>
+          </div>
+        </div>
+          <button class="main-button" style="margin-top: 50px; 
+          padding: 10px 30px;" type="submit">SAVE</button>
+        </form>
+      </div>
+  </div>
+</div>
+{% endblock %}

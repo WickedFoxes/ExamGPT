@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='list.css') }}" />
+
+<div class="main-container">
+  <div class="main-title-container">
+    <p class="main-title">File Repository</p>
+    <div>
+      <a class="main-button" href="{{ url_for('question.create') }}"
+        >Upload New File</a
+      >
+    </div>
+  </div>
+  <hr />
+
+  {% if question_list %}
+  <ul class="list-container">
+    {% for question in question_list %}
+    <li class="list">
+      <img
+        src="../../static/image/file-image.png"
+        style="width: 75px; margin-bottom: 15px"
+      />
+      <a href="{{ url_for('question.detail', question_id=question.id) }}"></a>
+      <p>{{ question.subject }}</p>
+    </li>
+    {% endfor %} {% else %}
+    <p style="margin: 20px">Upload Files and Create Tests!</p>
+
+    {% endif %}
+  </ul>
+</div>
+
+{% endblock %}

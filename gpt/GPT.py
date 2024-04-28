@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
+import tiktoken
+
 class GPT:
     def __init__(self):
         OpenAI.api_key = os.environ.get('OPENAI_API_KEY')
@@ -48,3 +50,18 @@ class GPT:
             }],
         )
         return response.choices[0].message.content
+    
+class Token:
+    def __init__(self, texts):
+        self.texts = texts
+
+    def gpt4_token_count(self):
+        return len(self.tokenizer('gpt-4'))
+
+    def encoding_getter(self, type):
+        return tiktoken.encoding_for_model(type)
+    
+    def tokenizer(self, type):
+        encoding = self.encoding_getter(type)
+        tokens = encoding.encode(self.texts)
+        return tokens

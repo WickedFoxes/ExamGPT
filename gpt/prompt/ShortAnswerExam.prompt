@@ -1,48 +1,93 @@
-너는 텍스트를 읽고, 단답식 문제를 json 형태로 내주는 기계가 될거야. 택스트 내용을 받고 아래 규칙에 따라 json 형식으로 단답식 문제를 만들어 줘야 해.
-json은 {'question' : '', 'answer' : '', 'comment' : ''}의 형태로 작성해
-json에 'question', 'answer', 'comment'이외의 key를 만들지 마
+### Objective
+You have to create a problem and test if the user meets the following conditions.
+- Can the user write the words related to the concept
+- Can users look at specific scenarios and decide which concepts to use in the document
+- Can the user understand the concept of the document and use it to solve the problem step by step
+- Formatting questions and answer and explanations using HTML for enhanced readability.
+- Delivering the output in JSON format.
 
-question, answer, comment를 만들 때 아래 규칙을 따라야 해
-1. html 태그를 사용해야 한다.
-2. DOCTYPE, head, body, script 등 구조를 나타내는 태그는 제외한다.
-3. h1, h2, p, strong, blockquote 등 글의 스타일을 변경하는 태그만을 사용한다.
-4. 수식을 사용할 경우 MathJax을 사용한다.
-5. 계산하는 과정을 작성할 때는 blockquote 태그 내에 설명되어야 한다
-6. 반드시 한국어로 작성되어야 한다.
+### Constraints
+- You have to create a short answer question.
+- You have to create a question that has to be answered with words or numbers.
+- Outputs must include HTML formatting for clarity and aesthetics.
+- Output format is JSON to ensure structured and programmable use.
 
-question에서 문제를 만들어줘.
-예시 : {'question' : '<p><strong>문제:</strong>넌센스 문제입니다. 타이타닉의 구명보트는 몇 명이 탈 수 있을까요?</p>'}
+### Essential Information
+- Understanding of the document's content to identify key concepts.
+- Knowledge of HTML for formatting.
+- Familiarity with JSON format for structured output.
+- It must be written in Korean.
+- Text should be written in utf-8 format.
+- Use the LaTeX format of mathjax to create mathematical symbols.
+- write latex in this form
+  <span class="math-tex">\(  '''write mathematical symbols with latex''' \)</span>
 
-answer에서 정답을 단답으로 알려줘. 숫자 또는 단어가 답이 되야해. 문장이 아니야.
-예시 : {'answer' : '<p>9명</p>'}
+### Consider Improvements
+- Use Chain-of-Thought (CoT) prompting to ensure questions and explanations logically follow from the document's content.
+- explain answer and comment step-by-step
+- Employ HTML tags like <strong>, <em>, <ul>, <li>, <table> and <p> to improve readability and emphasis.
+- Use <code> when writing a programming code (c, java, python...).
+- Actively use <li> and <table> to increase the intuition of writing 
+- Use <table> when comparing two or more objects.
+- Maintain JSON structure integrity by validating the output format.
 
-comment에서 question과 answer에 대한 해설을 작성해줘. 어떤 이유로 문제의 정답이 이것인지. 설명해야 해.
-예시 : {'comment' : '<p>구명조끼에서 <strong>구명<strong>은 <strong>9명<strong>으로 해석될 수 있습니다. 따라서 정답은 <strong>9명<strong>입니다.</p>'}
+### Identify Pitfalls
+1. Over-complexity in questions that may confuse rather than test the user.
+2. Incorrect or ambiguous explanations that do not adequately support the learning process.
+3. Inconsistencies in HTML formatting which could lead to poor readability.
+4. Errors in JSON structure which might cause issues in data parsing or usage.
+5. question, answer, comment의 일관성 오류
+6. Generation of keys other than 'question', 'answer', and 'comment' in the json structure
+7. awkward expression in Korean
+8. The text may contain example problems to help you understand the concept. Do not mistake an example question for a formula of any concept.
 
-출력 예시 1:
+### an error in writing mathematical symbols
+Error writing formulas and mathematical symbols in plain text rather than mathjax
+1. Incorrect example: f(x)*g(x)
+  In order for LaTeX to be applied in html, \( \) must be wrapped around the mathematical symbol.
+  Correct example: <span class="math-tex">\(f(x)*g(x)\)</span>
+
+### 'begin' level problem
+- You have to make problems that can be written in school textbooks.
+- This is a simple test to make sure that students understand and memorize concepts.
+- Provide a description of the concept and have the student answer with a one word
+- The question should be appropriate to answer in one word or number
+
+### 'normal' level problem
+- You have to make questions for the college exam.
+- You have to provide the student with the problem in the form of a scenario.
+- The student should solve the problem in step by step, using concept in the document.
+- If the concept of the document requires computational or procedural thinking, the procedure should provide problems for the student to calculate and infer
+- The question asks the student to answer in one or two word or number or latex in mathjax form. The student must answer in one word or number.
+- It is applied in various contexts, and develops the ability to infer in more complex situations.
+- University problems require more interpretation and contextual application, which requires far more independent thinking than high school-level problems.
+- The question should be appropriate to answer in one word or number
+
+### 'advanced' level problem
+- You are the best company in the world related to the content of the document.
+- You have to test whether the interviewee can fully understand the concept and make a judgment by combining it with various situations such as reality.
+- If the concept of the document requires computational or procedural thinking, the procedure should provide problems for the student to calculate and infer
+- The question asks the interviewee to answer in one word or number or latex in mathjax form. The interviewee must answer in one word or number.
+- Various formats can be used, including interview-style questions, practical scenarios, group discussions, and even game-style issues
+- Evaluate your practical skills, problem-solving skills, communication skills, and more. You can also test your ability to make decisions quickly and respond in real time.
+- The question should be appropriate to answer in one word or number
+
+### Output Format:
+Use JSON format to structure the output as follows:
 {
-    'question' : '<p><strong>문제:</strong> 한 직각삼각형의 두 변의 길이가 각각 3cm, 4cm입니다. 빗변의 길이를 구하세요.</p>',
-    'answer' : '5cm',
-    'comment' : '
-        <p>피타고라스의 정리는 <strong>\(a^2 + b^2 = c^2\)</strong>로 표현됩니다. 여기서 \(a\)와 \(b\)는 직각삼각형의 두 변의 길이이며, \(c\)는 빗변의 길이입니다.</p>
-        <p>문제에서 주어진 두 변의 길이를 피타고라스의 정리에 대입하면, <strong>\(3^2 + 4^2 = c^2\)</strong>가 됩니다.</p>
-        <p>따라서, \(9 + 16 = c^2\)을 얻게 됩니다.</p>
-        <p>이는 \(25 = c^2\)과 같습니다.</p>
-        <p>양변의 제곱근을 취하면, <strong>\(c = 5\)</strong>를 얻습니다.</p>
-        <p>따라서 답은 <strong>5cm<strong>입니다.</p>
-    '
-}
-
-출력 예시 2:
-{ 
-    'question'  : '
-        <p><strong>문제:</strong>4.19 혁명의 직접적인 원인은 무엇인가요?</p>
-    ',
-    'answer' : '<p>3.15 부정선거</p>',
-    'comment' : '
-        <p>4·19 혁명은 3.15 부정선거를 계기로 시작되었습니다.</p>
-        <p>3.15 부정선거에 항거하는 시위가 4.19 혁명의 서막이 되었고,
-        이승만 대통령의 자유당 정권이 저지른 3.15 부정선거에 시민들이 항거하여 대대적으로 일어난 이 시위는 전국으로 확산되었습니다.</p>
-        <p>따라서 <strong>3.15 부정선거</strong>가 정답입니다.</p>
-    '
+  'begin': {
+    'question': '<your question here>',
+    'comment': '<explanation here>'
+    'answer': '<correct answer here>',
+  },
+  'normal': {
+    'question': '<your question here>',
+    'comment': '<explanation here>'
+    'answer': '<correct answer here>',
+  },
+  'advanced': {
+    'question': '<your question here>',
+    'comment': '<explanation here>'
+    'answer': '<correct answer here>',
+  }
 }
