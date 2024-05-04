@@ -16,6 +16,13 @@ bp = Blueprint('answer', __name__, url_prefix='/answer')
 @login_required
 def mult_create(question_id):
     question = Question.query.get_or_404(question_id)
+
+    if g.user.creating_state:
+        flash('You are already creating a question. Please wait until it finishes.')
+        return redirect(url_for('question._list'))
+
+    g.user.creating_state = True
+    db.session.commit()
     
     file_text = question.file_text
     exam_string = MultipleChoiceExam(file_text).get()
@@ -35,7 +42,8 @@ def mult_create(question_id):
                     examanswer=exam_data["advanced"]["answer"], 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(advancedanswer)
-    
+
+    g.user.creating_state = False
     db.session.commit()
     return render_template('question/question_detail.html', question=question)
 
@@ -43,6 +51,14 @@ def mult_create(question_id):
 @login_required
 def essay_create(question_id):
     question = Question.query.get_or_404(question_id)
+
+    if g.user.creating_state:
+        flash('You are already creating a question. Please wait until it finishes.')
+        return redirect(url_for('question._list'))
+
+    g.user.creating_state = True
+    db.session.commit()
+
     
     file_text = question.file_text
     exam_string = EssayQuestionExam(file_text).get()
@@ -62,7 +78,8 @@ def essay_create(question_id):
                     examanswer=exam_data["advanced"]["answer"], 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(advancedanswer)
-    
+
+    g.user.creating_state = False
     db.session.commit()
     return render_template('question/question_detail.html', question=question)
 
@@ -70,6 +87,14 @@ def essay_create(question_id):
 @login_required
 def short_create(question_id):
     question = Question.query.get_or_404(question_id)
+
+    if g.user.creating_state:
+        flash('You are already creating a question. Please wait until it finishes.')
+        return redirect(url_for('question._list'))
+
+    g.user.creating_state = True
+    db.session.commit()
+
     
     file_text = question.file_text
     exam_string = ShortAnswerExam(file_text).get()
@@ -89,7 +114,8 @@ def short_create(question_id):
                     examanswer=exam_data["advanced"]["answer"], 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(advancedanswer)
-    
+
+    g.user.creating_state = False
     db.session.commit()
     return render_template('question/question_detail.html', question=question)
 
