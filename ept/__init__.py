@@ -20,6 +20,7 @@ TOKEN_LIMIT = 1200
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
+    app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['TOKEN_LIMIT'] = TOKEN_LIMIT
 
