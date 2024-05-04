@@ -1,0 +1,117 @@
+#loader-container {
+  width: 98.75vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(255, 255, 255, 0.7);
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ff0000;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#selectType {
+  width: 88%;
+  margin: 0 6%;
+}
+
+.type-title {
+  color: gray;
+  font-size: 1.1rem;
+}
+.type-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 30px 0;
+  width: 100%;
+}
+
+.type-container button {
+  padding: 10px 40px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  background-color: rgb(240, 240, 240);
+  color: gray;
+}
+
+.type-container button:hover {
+  transition: 0.25s;
+  background-color: rgb(225, 225, 225);
+  cursor: pointer;
+  color: red;
+}
+
+.question-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.question-length {
+  margin: 3% 15% 1%;
+  width: 70%;
+  font-size: 1.2rem;
+}
+
+.question-box {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: 15px 0;
+  padding: 10px 70px 40px;
+  border: 1px solid rgb(228, 228, 228);
+  border-radius: 5px;
+}
+
+.card-title {
+  margin: 25px 0 5px;
+  font-size: 1.1rem;
+  color: rgb(115, 115, 115);
+  font-family: gsM;
+}
+
+.card-text {
+  margin: 5px 0 25px;
+  font-size: 1.1rem;
+  text-align: justify;
+}
+
+.card-text p {
+  margin-bottom: 10px;
+}
+
+.card-text li {
+  margin: 5px 30px;
+}
+
+.card-button {
+  border-radius: 3px;
+  border: 0.5px solid rgb(200, 200, 200);
+  padding: 3px;
+  margin: 3px;
+}
+
+.card-button:hover {
+  background-color: rgb(200, 200, 200);
+  transition: 0.25s;
+}
