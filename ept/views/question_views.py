@@ -35,6 +35,8 @@ def _list():
 @bp.route('/detail/<int:question_id>/')
 def detail(question_id):
     question = Question.query.get_or_404(question_id)
+    if g.user != question.user:
+        return redirect(url_for('main.error'))
     return render_template('question/question_detail.html', question=question)
 
 def allowed_file(filename):

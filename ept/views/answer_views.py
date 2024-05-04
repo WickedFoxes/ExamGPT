@@ -16,10 +16,10 @@ bp = Blueprint('answer', __name__, url_prefix='/answer')
 @login_required
 def mult_create(question_id):
     question = Question.query.get_or_404(question_id)
-
+    if g.user != question.user:
+        return redirect(url_for('main.error'))
     if g.user.creating_state:
-        flash('You are already creating a question. Please wait until it finishes.')
-        return redirect(url_for('question._list'))
+        return redirect(url_for('main.exam_create_error'))
 
     g.user.creating_state = True
     db.session.commit()
@@ -51,6 +51,10 @@ def mult_create(question_id):
 @login_required
 def essay_create(question_id):
     question = Question.query.get_or_404(question_id)
+    if g.user != question.user:
+        return redirect(url_for('main.error'))
+    if g.user.creating_state:
+        return redirect(url_for('main.exam_create_error'))
 
     if g.user.creating_state:
         flash('You are already creating a question. Please wait until it finishes.')
@@ -87,6 +91,10 @@ def essay_create(question_id):
 @login_required
 def short_create(question_id):
     question = Question.query.get_or_404(question_id)
+    if g.user != question.user:
+        return redirect(url_for('main.error'))
+    if g.user.creating_state:
+        return redirect(url_for('main.exam_create_error'))
 
     if g.user.creating_state:
         flash('You are already creating a question. Please wait until it finishes.')
