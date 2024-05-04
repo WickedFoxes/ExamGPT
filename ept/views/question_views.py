@@ -48,28 +48,30 @@ def create():
     if form.validate_on_submit():
         subject = form.subject.data
         file_content = form.fileContent.data
-        
+
         uploadfilepath = UPLOAD_FOLDER+"/"+str(uuid.uuid4())
         file_content.save(uploadfilepath)
         tika = Tika(uploadfilepath)
 
         file_type = tika.get_type()
         print(file_type)
-        
+
         # file type check
         if not allowed_file(file_type):
             flash("Only PDF or HTML or TXT or PNG or MSOffice file formats are allowed.")
-            if os.path.isfile(uploadfilepath): os.remove(uploadfilepath)
+            if os.path.isfile(uploadfilepath):
+                os.remove(uploadfilepath)
             return render_template('question/question_form.html', form=form)
 
         # file text token check
         file_content_text = tika.get()
         token_count = Token(file_content_text).gpt4_token_count()
-        if os.path.isfile(uploadfilepath): os.remove(uploadfilepath)
         if token_count > TOKEN_LIMIT:
             flash("The document contains "+str(token_count)+" tokens. ExamGPT limits text in documents to "+str(TOKEN_LIMIT)+" tokens.")
+            if os.path.isfile(uploadfilepath):
+                os.remove(uploadfilepath)
             return render_template('question/question_form.html', form=form)
-        
+
         # file text content check
         contentcheck = ContentCheck(file_content_text)
         contentcheck_string = contentcheck.get()
@@ -77,15 +79,19 @@ def create():
         if(contentcheck_data['clarity'] == 'false' or contentcheck_data['problem_development'] == 'false'
            or contentcheck_data['XSS_safe'] == 'false' or contentcheck_data['prompt_safe'] == 'false'):
             flash(contentcheck_data['comment'])
+            if os.path.isfile(uploadfilepath):
+                os.remove(uploadfilepath)
             return render_template('question/question_form.html', form=form)
 
         # add db data
         new_file = Question(subject=subject, file_text=file_content_text, create_date=datetime.now(), user=g.user)
         db.session.add(new_file)
         db.session.commit()
+
         return redirect(url_for('main.index'))
-        
+
     return render_template('question/question_form.html', form=form)
+        
         
         
 # @bp.route('/edit/', methods=('GET', 'POST'))
