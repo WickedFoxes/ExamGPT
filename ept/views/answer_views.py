@@ -56,10 +56,6 @@ def essay_create(question_id):
     if g.user.creating_state:
         return redirect(url_for('main.exam_create_error'))
 
-    if g.user.creating_state:
-        flash('You are already creating a question. Please wait until it finishes.')
-        return redirect(url_for('question._list'))
-
     g.user.creating_state = True
     db.session.commit()
 
@@ -95,10 +91,6 @@ def short_create(question_id):
         return redirect(url_for('main.error'))
     if g.user.creating_state:
         return redirect(url_for('main.exam_create_error'))
-
-    if g.user.creating_state:
-        flash('You are already creating a question. Please wait until it finishes.')
-        return redirect(url_for('question._list'))
 
     g.user.creating_state = True
     db.session.commit()
