@@ -9,11 +9,11 @@ db = SQLAlchemy()
 migrate = Migrate()
 UPLOAD_FOLDER = 'ept/static/uploads'
 ALLOWED_EXTENSIONS = {
-    'text/plain\r\n', 'text/html\r\n', 'application/pdf\r\n', 'image/png\r\n', 'image/jpeg\r\n',
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation\r\n', # pptx
-    'application/vnd.ms-powerpoint\r\n', # ppt
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document\r\n' # docx
-    'application/msword\r\n', #doc
+    'text/plain', 'text/html', 'application/pdf', 'image/png', 'image/jpeg',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation', # pptx
+    'application/vnd.ms-powerpoint', # ppt
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document' # docx
+    'application/msword', #doc
 }
 TOKEN_LIMIT = 1200
 
