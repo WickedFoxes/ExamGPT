@@ -57,6 +57,18 @@
       };
     }
   }
+  function confirmAndDelete(answerID) {
+    var confirmMessage = "정말 문제를 삭제하시겠습니까?";
+    if (confirm(confirmMessage)) {
+      var redirectUrl = "/answer/delete/" + answerID;
+      window.location.href = redirectUrl;
+      const loader = document.getElementById("loader-container");
+      loader.style.display = "flex";
+      window.onload = function () {
+        loader.style.display = "none";
+      };
+    }
+  }
 </script>
 
 <!-- 답변 목록 -->
@@ -87,7 +99,7 @@
         </a>
         {% if g.user == answer.user %}
         <a
-          href="javascript:void(0)"
+          href="javascript:confirmAndDelete({{ answer.id }});"
           class="card-button"
           data-uri="{{ url_for('answer.delete', answer_id=answer.id) }}"
           >삭제</a

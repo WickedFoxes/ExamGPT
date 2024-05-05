@@ -133,7 +133,7 @@ def delete(answer_id):
     answer = Answer.query.get_or_404(answer_id)
     question_id = answer.question.id
     if g.user != answer.user:
-        flash('삭제권한이 없습니다')
+        return redirect(url_for('main.error'))
     else:
         db.session.delete(answer)
         db.session.commit()

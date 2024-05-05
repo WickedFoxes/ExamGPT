@@ -46,6 +46,9 @@ Error writing formulas and mathematical symbols in plain text rather than mathja
 1. Incorrect example: f(x)*g(x)
   In order for LaTeX to be applied in html, \( \) must be wrapped around the mathematical symbol.
   Correct example: <span class="math-tex">\(f(x)*g(x)\)</span>
+2. Incorrect example: <span class=\"math-tex\">\\(\\frac{45}{2}\\)</span>
+  The backslash \ must be used only once
+  Correct example: <span class="math-tex">\(\frac{45}{2}\)</span>
 
 ### 'begin' level problem
 - You have to make problems that can be written in school textbooks.
@@ -77,17 +80,17 @@ Use JSON format to structure the output as follows:
 {
   'begin': {
     'question': '<your question here>',
-    'comment': '<explanation here>'
+    'comment': '<Step by step explanation of the answer>',
     'answer': '<correct answer here>',
   },
   'normal': {
     'question': '<your question here>',
-    'comment': '<explanation here>'
+    'comment': '<Step by step explanation of the answer>',
     'answer': '<correct answer here>',
   },
   'advanced': {
     'question': '<your question here>',
-    'comment': '<explanation here>'
+    'comment': '<Step by step explanation of the answer>',
     'answer': '<correct answer here>',
   }
 }
