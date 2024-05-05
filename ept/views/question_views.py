@@ -41,7 +41,9 @@ def detail(question_id):
 
 def allowed_file(filename):
     # 파일 확장자가 허용된 확장자인지 확인
-    return filename in ALLOWED_EXTENSIONS
+    for ext in ALLOWED_EXTENSIONS:
+        if(ext in filename): return True
+    return False
 
 @bp.route('/create/', methods=('GET', 'POST'))
 def create():    
