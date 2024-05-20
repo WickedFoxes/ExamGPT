@@ -12,7 +12,7 @@ ALLOWED_EXTENSIONS = {
     'text/plain', 'text/html', 'application/pdf', 'image/png', 'image/jpeg',
     'application/vnd.openxmlformats-officedocument.presentationml.presentation', # pptx
     'application/vnd.ms-powerpoint', # ppt
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document' # docx
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document', # docx
     'application/msword', #doc
 }
 TOKEN_LIMIT = 1200

@@ -8,6 +8,8 @@ from pybo.forms import QuestionForm, AnswerForm
 from pybo.models import Question, Answer, User
 from pybo.views.auth_views import login_required
 
+from tikaparser.tika import Tika
+
 bp = Blueprint('question', __name__, url_prefix='/question')
 
 
@@ -46,7 +48,10 @@ def detail(question_id):
 def create():
     form = QuestionForm()
     if request.method == 'POST' and form.validate_on_submit():
-        question = Question(subject=form.subject.data, content=form.content.data,
+        filedata = form.file.data
+        filedata.save('C:/GitProject/ExamGPT/test.test')
+        tika = Tika('C:/GitProject/ExamGPT/test.test')
+        question = Question(subject=form.subject.data, content=form.content.data, filecontent = tika.get(),
                             create_date=datetime.now(), user=g.user)
         db.session.add(question)
         db.session.commit()

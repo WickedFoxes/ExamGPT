@@ -6,11 +6,59 @@ from werkzeug.utils import redirect
 from .. import db
 from ept.models import Question, Answer
 from ept.views.auth_views import login_required
+from ept.forms import CustomForm
 
 import json
-from gpt.exam import MultipleChoiceExam, EssayQuestionExam, ShortAnswerExam
+import base64
+from gpt.exam import MultipleChoiceExam, EssayQuestionExam, ShortAnswerExam, CustomExam, ReadImgExam
 
 bp = Blueprint('answer', __name__, url_prefix='/answer')
+
+@bp.route('/create/<int:question_id>/custom', methods=('GET', 'POST'))
+@login_required
+def custom_create(question_id):
+    question = Question.query.get_or_404(question_id)
+    if g.user != question.user:
+        return redirect(url_for('main.error'))
+    
+    form = CustomForm()
+    if form.validate_on_submit():
+        file_content = form.fileContent.data
+
+        file_text = question.file_text
+        base64_str  = base64.b64encode(file_content.read()).decode('utf-8')
+        base64_url = f"data:image/jpeg;base64,{base64_str}"
+
+        g.user.creating_state = True
+        db.session.commit()
+
+        imgRead = ReadImgExam(base64_url)
+        htmlcontent = imgRead.get_from_img()
+
+        exam_string = CustomExam(file_text, htmlcontent).get()
+        exam_data = json.loads(exam_string)
+
+        beginanswer = Answer(examquestion=exam_data["begin"]["question"], 
+                        examcomment=exam_data["begin"]["comment"], 
+                        examanswer=exam_data["begin"]["answer"], 
+                        create_date=datetime.now(), user=g.user)
+        question.answer_set.append(beginanswer)
+        normalanswer = Answer(examquestion=exam_data["normal"]["question"], 
+                        examcomment=exam_data["normal"]["comment"], 
+                        examanswer=exam_data["normal"]["answer"], 
+                        create_date=datetime.now(), user=g.user)
+        question.answer_set.append(normalanswer)
+        advancedanswer = Answer(examquestion=exam_data["advanced"]["question"], 
+                        examcomment=exam_data["advanced"]["comment"], 
+                        examanswer=exam_data["advanced"]["answer"], 
+                        create_date=datetime.now(), user=g.user)
+        question.answer_set.append(advancedanswer)
+
+        g.user.creating_state = False
+        db.session.commit()
+        return redirect(url_for('question.detail', question_id=question_id))
+    
+    return render_template('question/question_custom_form.html', form=form)
 
 @bp.route('/create/<int:question_id>/multiplechoice')
 @login_required
@@ -45,7 +93,8 @@ def mult_create(question_id):
 
     g.user.creating_state = False
     db.session.commit()
-    return render_template('question/question_detail.html', question=question)
+    return render_template('complete.html', question=question)
+    # return render_template('question/question_detail.html', question=question)
 
 @bp.route('/create/<int:question_id>/essayquestion')
 @login_required
@@ -81,7 +130,8 @@ def essay_create(question_id):
 
     g.user.creating_state = False
     db.session.commit()
-    return render_template('question/question_detail.html', question=question)
+    return render_template('complete.html', question=question)
+    # return render_template('question/question_detail.html', question=question)
 
 @bp.route('/create/<int:question_id>/shortanswer')
 @login_required
@@ -117,7 +167,8 @@ def short_create(question_id):
 
     g.user.creating_state = False
     db.session.commit()
-    return render_template('question/question_detail.html', question=question)
+    return render_template('complete.html', question=question)
+    # return render_template('question/question_detail.html', question=question)
 
 @bp.route('/delete/<int:answer_id>')
 @login_required

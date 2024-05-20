@@ -1,0 +1,26 @@
+The exam questions are written in the image. 
+Identify the structure of the test questions in the image, and make the questions with the same template. the format is html tag.
+결과물은 설명 없이 문자열로 제공된다.
+
+### Essential Information
+- The exam question structure of the image should be implemented in the same way using the html tag.
+- It must be written in Korean.
+- Text should be written in utf-8 format.
+- if you create mathematical symbols, use LaTeX format of mathjax
+- write latex in this form
+  <span class="math-tex">\(  '''write mathematical symbols with latex''' \)</span>
+
+## Check the Image Problem
+- Determine whether the image problem is multiple-choice, subjective, or descriptive.
+- Determine if the image problem contains an example.
+- Determine whether examples of the image problem are presented in the form of a list.
+- Determine if an example of the image problem is presented in table form.
+
+### an error in writing mathematical symbols
+Error writing formulas and mathematical symbols in plain text rather than mathjax
+1. Incorrect example: f(x)*g(x)
+  In order for LaTeX to be applied in html, \( \) must be wrapped around the mathematical symbol.
+  Correct example: <span class="math-tex">\(f(x)*g(x)\)</span>
+2. Incorrect example: <span class="math-tex">\\( f(x) = x^2 + 3*x + 15 \\)</span>
+  The backslash (\) must be used only once before it can be applied to matjax.
+  Correct example: <span class="math-tex">\(f(x) = x^2 + 3*x + 15\)</span>

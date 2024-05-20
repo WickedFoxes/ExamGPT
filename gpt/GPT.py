@@ -15,6 +15,19 @@ class GPT:
         message = {"role" : role, "content" : content}
         self.messages.append(message)
 
+    def add_vision_message(self, role, type, content):
+        if(type == "text"):
+            message = {
+                "role" : role, 
+                "content" : [{"type": "text", "text": content}]
+            }
+        if(type == "image_url"):
+            message = {
+                "role" : role, 
+                "content" : [{"type": "image_url", "image_url": {"url" : content}}]
+            }
+        self.messages.append(message)
+
     def get_gpt3_json(self):
         response = self.client.chat.completions.create(
             model="gpt-3.5-turbo-0125",
@@ -24,30 +37,17 @@ class GPT:
     
     def get_gpt4_json(self):
         response = self.client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-4o",
+            # model="gpt-4-turbo",
             response_format={ "type": "json_object" },
             messages=self.messages
         )
         return response.choices[0].message.content
 
-    def get_gpt4_vision(self, image_url):
+    def get_gpt4_vision(self):
         response = self.client.chat.completions.create(
-            model="gpt-4-vision-preview",
-            messages = [{
-                "role": "user",
-                "content": [
-                {
-                    "type": "text",
-                    "text": "What's in this image?"
-                },
-                {
-                    "type": "image_url",
-                    "image_url": {
-                    "url": f"{image_url}"
-                    }
-                }
-                ]
-            }],
+            model="gpt-4o",
+            messages=self.messages
         )
         return response.choices[0].message.content
     

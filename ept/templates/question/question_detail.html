@@ -26,6 +26,9 @@
     <button onclick="confirmAndRedirect('{{ question.id }}', 'essayquestion')">
       03. 서술형 문제
     </button>
+    <button onclick="confirmAndRedirect('{{ question.id }}', 'custom')">
+      04. 커스텀 문제
+    </button>
   </div>
   <hr style="width: 100%" />
 </div>
@@ -42,6 +45,9 @@
         break;
       case "essayquestion":
         confirmMessage = "서술형 문제를 만들겠습니까?";
+        break;
+      case "custom":
+        confirmMessage = "커스텀 문제를 만들겠습니까?";
         break;
       default:
         confirmMessage = "문제를 만들겠습니까?";

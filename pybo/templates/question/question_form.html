@@ -15,6 +15,10 @@
             <textarea class="form-control" name="content"
                       id="content" rows="10">{{ form.content.data or '' }}</textarea>
         </div>
+        <div class="mb-3">
+            <label for="content">파일</label>
+            <input type="file" class="form-control" id="file" name="file">
+        </div>
         <button type="submit" class="btn btn-primary">저장하기</button>
     </form>
 </div>

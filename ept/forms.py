@@ -17,3 +17,6 @@ class UserCreateForm(FlaskForm):
 class UserLoginForm(FlaskForm):
     username = StringField("Nickname Error", validators=[DataRequired(), Length(min=3, max=25)])
     password = PasswordField('Password Error', validators=[DataRequired()])
+
+class CustomForm(FlaskForm):
+    fileContent = FileField('fileContent')

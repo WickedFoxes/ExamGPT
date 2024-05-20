@@ -20,7 +20,7 @@ You have to create a problem and test if the user meets the following conditions
 - Text should be written in utf-8 format.
 - Use the LaTeX format of mathjax to create mathematical symbols.
 - write latex in this form
-  <span class="math-tex">\(  '''write mathematical symbols with latex''' \)</span>
+  "<span class="math-tex">\\(  '''write mathematical symbols with latex''' \\)</span>"
 
 ### Consider Improvements
 - Use Chain-of-Thought (CoT) prompting to ensure questions and explanations logically follow from the document's content.
@@ -43,12 +43,17 @@ You have to create a problem and test if the user meets the following conditions
 
 ### an error in writing mathematical symbols
 Error writing formulas and mathematical symbols in plain text rather than mathjax
-1. Incorrect example: f(x)*g(x)
-  In order for LaTeX to be applied in html, \( \) must be wrapped around the mathematical symbol.
-  Correct example: <span class="math-tex">\(f(x)*g(x)\)</span>
-2. Incorrect example: <span class=\"math-tex\">\\(\\frac{45}{2}\\)</span>
-  The backslash \ must be used only once
-  Correct example: <span class="math-tex">\(\frac{45}{2}\)</span>
+1. Incorrect example: "f(x)*g(x)"
+  In order for LaTeX to be applied in html, \\( \\) must be wrapped around the mathematical symbol.
+  Correct example: '<span class="math-tex">\\( f(x)*g(x) \\)</span>'
+Errors that do not create \\( \\) occur frequently.
+The use of \\( \\) should be a priority when creating formulas.
+2. Incorrect example: '<span class=\"math-tex\">\\\\( \\\\frac{45}{2} \\\\)</span>'
+  The backslash \\ must be used only once
+  Correct example: '<span class="math-tex">\\( \\frac{45}{2} \\)</span>'
+3. Incorrect example: '<code>quadratic formula: x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</code>'
+  You should use '\\(   latex   \\)' instead of using the '<code>    latex   </code>'
+  Correct example: 'quadratic formula: <span class="math-tex">\\( x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a} \\)</span>'
 
 ### 'begin' level problem
 - You have to make problems that can be written in school textbooks.
