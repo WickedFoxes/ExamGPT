@@ -99,3 +99,55 @@ hr {
   transition: 0.25s;
   background-color: rgb(200, 200, 200);
 }
+
+/* loading page */
+#loader-container {
+  width: 98.75vw;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(255, 255, 255, 0.7);
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ff0000;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loading-text {
+  color: red;
+  margin: 20px;
+  font-size: 1.25rem;
+  animation: colorChange 2.5s infinite;
+}
+
+@keyframes colorChange {
+  0% {
+    color: red;
+  }
+  50% {
+    color: white;
+  }
+  100% {
+    color: red;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

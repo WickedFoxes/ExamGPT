@@ -2,6 +2,7 @@
 
 <div id="loader-container" style="display: none">
   <span class="loader"></span>
+  <p class="loading-text">문제를 생성 중입니다...</p>
 </div>
 
 {% extends 'base.html' %} {% block content %}
@@ -88,6 +89,10 @@
     <div class="card-body">
       <div class="card-title">Q.</div>
       <div class="card-text">{{ answer.examquestion | safe }}</div>
+      <div class="show-button-container" id="hide-button-{{ answer.id }}" style="float: right">
+        <button class = "show-button" id="show-button-{{ answer.id }}" onclick="showAnswer('{{ answer.id }}')">Show Answer</button>
+      </div>
+      <span id="hide-answer-{{ answer.id }}" style="display: none">
       <div class="card-title">A.</div>
       <div class="card-text">{{ answer.examanswer | safe }}</div>
       <div class="card-title">Description</div>
@@ -98,7 +103,7 @@
           data-uri="{{ url_for('answer.vote', answer_id=answer.id) }}"
           class="card-button"
         >
-          추천
+          Recommend
           <span class="badge rounded-pill bg-success"
             >{{ answer.voter|length }}</span
           >
@@ -108,9 +113,13 @@
           href="javascript:confirmAndDelete({{ answer.id }});"
           class="card-button"
           data-uri="{{ url_for('answer.delete', answer_id=answer.id) }}"
-          >삭제</a
+          >Delete</a
         >
+        <div style="float: right; margin-top: 30px">
+        <button class = "show-button" onclick="hideAnswer('{{answer.id}}')">Hide Answer</button>
+        </div>
         {% endif %}
+      </span>
       </div>
     </div>
   </div>
@@ -128,6 +137,16 @@
       selectType.style.display = "none";
     }
   };
+
+  const showAnswer = (answerId) =>{
+    document.getElementById('hide-answer-' + answerId).style.display = 'block';
+    document.getElementById('hide-button-' + answerId).style.display = 'none';
+  }
+
+  const hideAnswer = (answerId) =>{
+    document.getElementById('hide-answer-' + answerId).style.display = 'none';
+    document.getElementById('hide-button-' + answerId).style.display = 'block';
+    }
 </script>
 
 {% endblock %}
