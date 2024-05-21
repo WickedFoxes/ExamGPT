@@ -44,4 +44,57 @@
       </div>
   </div>
 </div>
+<script>
+document.onpaste = function(pasteEvent) {
+    // 첫 번째 항목을 고려합니다(여러 항목에 대해 쉽게 확장할 수 있음)
+    var item = pasteEvent.clipboardData.items[0];
+ 
+    if (item.type.indexOf("image") === 0)
+    {
+        // 이미지의 덩어리를 가져옵니다.
+        var blob = item.getAsFile();
+ 
+        // 파일 리더 생성
+        var reader = new FileReader();
+ 
+        // onload 이벤트 핸들러 설정
+        reader.onload = function(event) {
+            // 이미지의 데이터 URL을 가져옵니다.
+            let dataURL = event.target.result;
+ 
+            // img 컨테이너 ID를 가져옵니다.
+            let img = document.getElementById("file_image_view");
+ 
+            // 이미지 요소의 소스 속성을 설정합니다.
+            img.src = dataURL;
+
+            // 이미지를 File 객체로 변경합니다.
+            let files = document.querySelector('#file_input').files;
+            let dataTranster = new DataTransfer();
+            let copyimg = base64toFile(dataURL, 'temp.png');
+            
+            dataTranster.items.add(copyimg);
+            document.querySelector("p.file-name").innerText = "temp.png"
+            document.querySelector('#file_input').files = dataTranster.files;
+        };
+ 
+        // 블롭을 데이터 URL로 읽습니다.
+        reader.readAsDataURL(blob);
+    }
+}
+function base64toFile(base_data, filename) {
+
+var arr = base_data.split(','),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+
+while(n--){
+    u8arr[n] = bstr.charCodeAt(n);
+}
+
+return new File([u8arr], filename, {type:mime});
+}
+</script>
 {% endblock %}
