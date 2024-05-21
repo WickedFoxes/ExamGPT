@@ -80,8 +80,9 @@ def create():
         contentcheck = ContentCheck(file_content_text)
         contentcheck_string = contentcheck.get()
         contentcheck_data = json.loads(contentcheck_string)
-        if(contentcheck_data['clarity'] == 'false' or contentcheck_data['problem_development'] == 'false'
-           or contentcheck_data['XSS_safe'] == 'false' or contentcheck_data['prompt_safe'] == 'false'):
+        if(contentcheck_data['content_safe'] == 'false'
+           or contentcheck_data['XSS_safe'] == 'false' 
+           or contentcheck_data['prompt_safe'] == 'false'):
             flash(contentcheck_data['comment'])
             if os.path.isfile(uploadfilepath):
                 os.remove(uploadfilepath)
