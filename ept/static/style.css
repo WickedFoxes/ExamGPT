@@ -101,7 +101,8 @@ hr {
 }
 
 /* loading page */
-#loader-container {
+#loader-container,
+#loader-container2 {
   width: 98.75vw;
   height: 100vh;
   flex-direction: column;

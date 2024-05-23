@@ -5,6 +5,11 @@
   <p class="loading-text">문제를 생성 중입니다...</p>
 </div>
 
+<div id="loader-container2" style="display: none">
+  <span class="loader"></span>
+  <p class="loading-text">문제를 삭제 중입니다...</p>
+</div>
+
 {% extends 'base.html' %} {% block content %}
 <div class="main-container">
   <div class="main-title-container">
@@ -69,8 +74,9 @@
     if (confirm(confirmMessage)) {
       var redirectUrl = "/answer/delete/" + answerID;
       window.location.href = redirectUrl;
-      const loader = document.getElementById("loader-container");
+      const loader = document.getElementById("loader-container2");
       loader.style.display = "flex";
+
       window.onload = function () {
         loader.style.display = "none";
       };
