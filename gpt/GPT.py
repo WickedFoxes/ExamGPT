@@ -35,6 +35,14 @@ class GPT:
         )
         return response.choices[0].message.content
     
+    def get_gpt4_text(self):
+        response = self.client.chat.completions.create(
+            model="gpt-4o",
+            # model="gpt-4-turbo",
+            messages=self.messages
+        )
+        return response.choices[0].message.content
+
     def get_gpt4_json(self):
         response = self.client.chat.completions.create(
             model="gpt-4o",

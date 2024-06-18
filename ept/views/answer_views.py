@@ -10,7 +10,8 @@ from ept.forms import CustomForm
 
 import json
 import base64
-from gpt.exam import MultipleChoiceExam, EssayQuestionExam, ShortAnswerExam, CustomExam, ReadImgExam
+from gpt.exam import MultipleChoiceExam, EssayQuestionExam, ShortAnswerExam, CustomExam
+from bs4 import BeautifulSoup
 
 bp = Blueprint('answer', __name__, url_prefix='/answer')
 
@@ -32,25 +33,29 @@ def custom_create(question_id):
         g.user.creating_state = True
         db.session.commit()
 
-        imgRead = ReadImgExam(base64_url)
-        htmlcontent = imgRead.get_from_img()
+        # imgRead = ReadImgExam(base64_url)
+        # htmlcontent = imgRead.get_from_img()
 
-        exam_string = CustomExam(file_text, htmlcontent).get()
-        exam_data = json.loads(exam_string)
+        exam_string = CustomExam(file_text, base64_url).get_from_img()
+        soup = BeautifulSoup(exam_string, 'html.parser')
+        print(soup)
+        questions = soup.find_all("div", {"class":"question"})
+        solves = soup.find_all("div", {"class":"solve"})
+        answers = soup.find_all("div", {"class":"answer"})
 
-        beginanswer = Answer(examquestion=exam_data["begin"]["question"], 
-                        examcomment=exam_data["begin"]["comment"], 
-                        examanswer=exam_data["begin"]["answer"], 
+        beginanswer = Answer(examquestion=str(questions[0]), 
+                        examcomment=str(solves[0]), 
+                        examanswer=str(answers[0]), 
                         create_date=datetime.now(), user=g.user)
         question.answer_set.append(beginanswer)
-        normalanswer = Answer(examquestion=exam_data["normal"]["question"], 
-                        examcomment=exam_data["normal"]["comment"], 
-                        examanswer=exam_data["normal"]["answer"], 
+        normalanswer = Answer(examquestion=str(questions[1]), 
+                        examcomment=str(solves[1]), 
+                        examanswer=str(answers[1]), 
                         create_date=datetime.now(), user=g.user)
         question.answer_set.append(normalanswer)
-        advancedanswer = Answer(examquestion=exam_data["advanced"]["question"], 
-                        examcomment=exam_data["advanced"]["comment"], 
-                        examanswer=exam_data["advanced"]["answer"], 
+        advancedanswer = Answer(examquestion=str(questions[2]), 
+                        examcomment=str(solves[2]), 
+                        examanswer=str(answers[2]), 
                         create_date=datetime.now(), user=g.user)
         question.answer_set.append(advancedanswer)
 
@@ -74,20 +79,25 @@ def mult_create(question_id):
     
     file_text = question.file_text
     exam_string = MultipleChoiceExam(file_text).get()
-    exam_data = json.loads(exam_string)
-    beginanswer = Answer(examquestion=exam_data["begin"]["question"], 
-                    examcomment=exam_data["begin"]["comment"], 
-                    examanswer=exam_data["begin"]["answer"], 
+    soup = BeautifulSoup(exam_string, 'html.parser')
+    questions = soup.find_all("div", {"class":"question"})
+    solves = soup.find_all("div", {"class":"solve"})
+    answers = soup.find_all("div", {"class":"answer"})
+    print(soup)
+
+    beginanswer = Answer(examquestion=str(questions[0]), 
+                    examcomment=str(solves[0]), 
+                    examanswer=str(answers[0]), 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(beginanswer)
-    normalanswer = Answer(examquestion=exam_data["normal"]["question"], 
-                    examcomment=exam_data["normal"]["comment"], 
-                    examanswer=exam_data["normal"]["answer"], 
+    normalanswer = Answer(examquestion=str(questions[1]), 
+                    examcomment=str(solves[1]), 
+                    examanswer=str(answers[1]), 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(normalanswer)
-    advancedanswer = Answer(examquestion=exam_data["advanced"]["question"], 
-                    examcomment=exam_data["advanced"]["comment"], 
-                    examanswer=exam_data["advanced"]["answer"], 
+    advancedanswer = Answer(examquestion=str(questions[2]), 
+                    examcomment=str(solves[2]), 
+                    examanswer=str(answers[2]), 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(advancedanswer)
 
@@ -108,23 +118,26 @@ def essay_create(question_id):
     g.user.creating_state = True
     db.session.commit()
 
-    
     file_text = question.file_text
     exam_string = EssayQuestionExam(file_text).get()
-    exam_data = json.loads(exam_string)
-    beginanswer = Answer(examquestion=exam_data["begin"]["question"], 
-                    examcomment=exam_data["begin"]["comment"], 
-                    examanswer=exam_data["begin"]["answer"], 
+    soup = BeautifulSoup(exam_string, 'html.parser')
+    questions = soup.find_all("div", {"class":"question"})
+    solves = soup.find_all("div", {"class":"solve"})
+    answers = soup.find_all("div", {"class":"answer"})
+
+    beginanswer = Answer(examquestion=str(questions[0]), 
+                    examcomment=str(solves[0]), 
+                    examanswer=str(answers[0]), 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(beginanswer)
-    normalanswer = Answer(examquestion=exam_data["normal"]["question"], 
-                    examcomment=exam_data["normal"]["comment"], 
-                    examanswer=exam_data["normal"]["answer"], 
+    normalanswer = Answer(examquestion=str(questions[1]), 
+                    examcomment=str(solves[1]), 
+                    examanswer=str(answers[1]), 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(normalanswer)
-    advancedanswer = Answer(examquestion=exam_data["advanced"]["question"], 
-                    examcomment=exam_data["advanced"]["comment"], 
-                    examanswer=exam_data["advanced"]["answer"], 
+    advancedanswer = Answer(examquestion=str(questions[2]), 
+                    examcomment=str(solves[2]), 
+                    examanswer=str(answers[2]), 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(advancedanswer)
 
@@ -148,20 +161,24 @@ def short_create(question_id):
     
     file_text = question.file_text
     exam_string = ShortAnswerExam(file_text).get()
-    exam_data = json.loads(exam_string)
-    beginanswer = Answer(examquestion=exam_data["begin"]["question"], 
-                    examcomment=exam_data["begin"]["comment"], 
-                    examanswer=exam_data["begin"]["answer"], 
+    soup = BeautifulSoup(exam_string, 'html.parser')
+    questions = soup.find_all("div", {"class":"question"})
+    solves = soup.find_all("div", {"class":"solve"})
+    answers = soup.find_all("div", {"class":"answer"})
+
+    beginanswer = Answer(examquestion=str(questions[0]), 
+                    examcomment=str(solves[0]), 
+                    examanswer=str(answers[0]), 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(beginanswer)
-    normalanswer = Answer(examquestion=exam_data["normal"]["question"], 
-                    examcomment=exam_data["normal"]["comment"], 
-                    examanswer=exam_data["normal"]["answer"], 
+    normalanswer = Answer(examquestion=str(questions[1]), 
+                    examcomment=str(solves[1]), 
+                    examanswer=str(answers[1]), 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(normalanswer)
-    advancedanswer = Answer(examquestion=exam_data["advanced"]["question"], 
-                    examcomment=exam_data["advanced"]["comment"], 
-                    examanswer=exam_data["advanced"]["answer"], 
+    advancedanswer = Answer(examquestion=str(questions[2]), 
+                    examcomment=str(solves[2]), 
+                    examanswer=str(answers[2]), 
                     create_date=datetime.now(), user=g.user)
     question.answer_set.append(advancedanswer)
 

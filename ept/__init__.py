@@ -15,7 +15,7 @@ ALLOWED_EXTENSIONS = {
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document', # docx
     'application/msword', #doc
 }
-TOKEN_LIMIT = 1200
+TOKEN_LIMIT = 14000
 
 def create_app():
     app = Flask(__name__)

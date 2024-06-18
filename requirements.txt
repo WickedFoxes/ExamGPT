@@ -7,3 +7,4 @@ email_validator
 mysql
 mysql-connector
 tiktoken
+beautifulsoup4
