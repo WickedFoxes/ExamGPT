@@ -12,10 +12,11 @@ from ept import UPLOAD_FOLDER, ALLOWED_EXTENSIONS, TOKEN_LIMIT
 import os
 import uuid
 import json
+import base64
 
 from tikaparser.tika import Tika
 from gpt.GPT import Token
-from gpt.contentcheck import ContentCheck
+from gpt.contentcheck import ContentCheck, ImageInfo
 
 bp = Blueprint('question', __name__, url_prefix='/question')
 
@@ -53,6 +54,7 @@ def create():
         file_content = form.fileContent.data
 
         uploadfilepath = UPLOAD_FOLDER+"/"+str(uuid.uuid4())
+        fdata = file_content.read()
         file_content.save(uploadfilepath)
         tika = Tika(uploadfilepath)
 
@@ -67,7 +69,18 @@ def create():
             return render_template('question/question_form.html', form=form)
 
         # file text token check
-        file_content_text = tika.get()
+        imgflag = False
+        for imgtype in ['image/png', 'image/jpeg', 'application/octet-stream']:
+            if(imgtype in file_type): imgflag = True
+        
+        file_content_text = None
+        if imgflag:
+            base64_str  = base64.b64encode(fdata).decode('utf-8')
+            base64_url = f"data:image/jpeg;base64,{base64_str}"
+            file_content_text = ImageInfo(base64_url).get_from_img()
+        else:
+            file_content_text = tika.get()
+
         token_count = Token(file_content_text).gpt4_token_count()
         if token_count > TOKEN_LIMIT:
             flash("The document contains "+str(token_count)+" tokens. ExamGPT limits text in documents to "+str(TOKEN_LIMIT)+" tokens.")

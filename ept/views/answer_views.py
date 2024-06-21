@@ -8,7 +8,6 @@ from ept.models import Question, Answer
 from ept.views.auth_views import login_required
 from ept.forms import CustomForm
 
-import json
 import base64
 from gpt.exam import MultipleChoiceExam, EssayQuestionExam, ShortAnswerExam, CustomExam
 from bs4 import BeautifulSoup

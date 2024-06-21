@@ -14,18 +14,16 @@ class ContentCheck:
         f = open(prompt_path, 'rb')
         return f.read().decode(encoding="utf-8")
 
-class PromptAttackError(Exception):
-    def __init__(self):
-        super().__init__('This texts contains contents that damage the prompt')
-
-class XSSAtackError(Exception):
-    def __init__(self):
-        super().__init__('This text contains content that causes cross-site scripting')
-
-class NotExamContentError(Exception):
-    def __init__(self):
-        super().__init__('This text does not contain anything useful for taking the exam')
-
-class NotClearContentError(Exception):
-    def __init__(self):
-        super().__init__('This text does not contain clear contents')
+class ImageInfo:
+    def __init__(self, imgcontent):
+        self.content = imgcontent
+        self.gpt = GPT()
+        self.gpt.add_vision_message("user", "text", self.readPrompt("gpt/prompt/ImageInfo.prompt"))
+    
+    def get_from_img(self):
+        self.gpt.add_vision_message("user", "image_url", self.content)
+        return self.gpt.get_gpt4_vision()
+    
+    def readPrompt(self, prompt_path):
+        f = open(prompt_path, 'rb')
+        return f.read().decode(encoding="utf-8")

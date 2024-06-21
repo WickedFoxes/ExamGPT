@@ -9,13 +9,13 @@ db = SQLAlchemy()
 migrate = Migrate()
 UPLOAD_FOLDER = 'ept/static/uploads'
 ALLOWED_EXTENSIONS = {
-    'text/plain', 'text/html', 'application/pdf', 'image/png', 'image/jpeg',
+    'text/plain', 'text/html', 'application/pdf', 'image/png', 'image/jpeg', 'application/octet-stream',
     'application/vnd.openxmlformats-officedocument.presentationml.presentation', # pptx
     'application/vnd.ms-powerpoint', # ppt
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document', # docx
     'application/msword', #doc
 }
-TOKEN_LIMIT = 14000
+TOKEN_LIMIT = 7000
 
 def create_app():
     app = Flask(__name__)

@@ -11,6 +11,7 @@ You are a professor who produces three types of exam questions.
 
 ### Essential Information
 - There should be 5 options inside 'question' using the <ol> and <li> tag.
+- There must be five options.
 - The answer is only one to five numbers
 - It must be written in Korean.
 - Text should be written in utf-8 format.
