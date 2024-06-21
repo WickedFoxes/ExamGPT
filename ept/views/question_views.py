@@ -54,10 +54,9 @@ def create():
         file_content = form.fileContent.data
 
         uploadfilepath = UPLOAD_FOLDER+"/"+str(uuid.uuid4())
-        fdata = file_content.read()
         file_content.save(uploadfilepath)
+        
         tika = Tika(uploadfilepath)
-
         file_type = tika.get_type()
         print(file_type)
 
@@ -70,11 +69,12 @@ def create():
 
         # file text token check
         imgflag = False
-        for imgtype in ['image/png', 'image/jpeg', 'application/octet-stream']:
+        for imgtype in ['image/png', 'image/jpeg']:
             if(imgtype in file_type): imgflag = True
         
         file_content_text = None
         if imgflag:
+            fdata = open(uploadfilepath, 'rb').read()
             base64_str  = base64.b64encode(fdata).decode('utf-8')
             base64_url = f"data:image/jpeg;base64,{base64_str}"
             file_content_text = ImageInfo(base64_url).get_from_img()

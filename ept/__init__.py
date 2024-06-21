@@ -9,7 +9,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 UPLOAD_FOLDER = 'ept/static/uploads'
 ALLOWED_EXTENSIONS = {
-    'text/plain', 'text/html', 'application/pdf', 'image/png', 'image/jpeg', 'application/octet-stream',
+    'text/plain', 'text/html', 'application/pdf', 'image/png', 'image/jpeg',
     'application/vnd.openxmlformats-officedocument.presentationml.presentation', # pptx
     'application/vnd.ms-powerpoint', # ppt
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document', # docx
